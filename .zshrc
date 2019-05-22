@@ -5,7 +5,7 @@ export ZSH="/Users/charleslee/.oh-my-zsh"
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="random"
+ZSH_THEME="theunraveler"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
@@ -20,7 +20,7 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(sudo pip python history-substring-search zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git sudo pip python history-substring-search zsh-syntax-highlighting zsh-autosuggestions)
 
 # This needs to be after plugins
 source $ZSH/oh-my-zsh.sh

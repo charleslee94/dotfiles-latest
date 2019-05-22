@@ -34,8 +34,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 
-Plug 'brooth/far.vim'
-
 "Language Specific
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -163,7 +161,6 @@ nmap <Leader>f :GFiles<CR>
 nmap <Leader>F :Files<CR>
 nnoremap <C-p> :Files<Cr>
 
-command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 " Ale Syntax Checkers
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -171,10 +168,13 @@ let g:ale_fixers = {
 \   'ruby': ['rubocop']
 \}
 
+"Auto-fix file according to ale fixers
 nnoremap <silent> <Leader>fx :ALEFix
 
 "Airline, Colorscheme"
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
+" TODO Allow rg on selection
+vnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 
 set background=dark
 " colorscheme material 
