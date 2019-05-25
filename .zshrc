@@ -70,6 +70,7 @@ alias vimrc='vim ~/.vimrc'
 alias tmuxconf='vim ~/.tmux.conf'
 # Git 
 alias undo-commit='git reset HEAD~1 --soft'
+alias gb='git branch --sort=-committerdate'
 
 # Plugin help
 alias zplug='google-chrome https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins'

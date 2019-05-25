@@ -3,7 +3,7 @@ call plug#begin()
 
 "Include a gutter to the side that indicates line changes and light statusbar
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 
 "Git Wrapper
 Plug 'tpope/vim-fugitive'
@@ -20,6 +20,9 @@ Plug 'majutsushi/tagbar'
 "Allow camelcasemotion
 Plug 'vim-scripts/camelcasemotion'
 
+"Emmet help for html
+Plug 'mattn/emmet-vim'
+
 "Autocompletion
 Plug 'Valloric/YouCompleteMe'
 
@@ -29,33 +32,35 @@ Plug 'rhysd/clever-f.vim'
 " Linting and Syntax Checker
 Plug 'w0rp/ale'
 
+" Asynhronous auto/save cmds
+Plug 'skywind3000/asyncrun.vim'
+
 "Easier surround, commenting out, repeat plugins
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 
 "Language Specific
-Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
 
 "A E S T H E T I C S
 Plug 'junegunn/seoul256.vim'
-Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
-"Basic Configs
+"Basic Config
 
 "Set compatibility to Vim only.
 set nocompatible
 
 filetype plugin indent on
 
-"Helps force plug-ins to load correctly when it is turned back on below.
-filetype off
-
 "Turn on syntax highlighting on
 syntax on 
+
+"For Airline
+set laststatus=2
 
 "Show last command in bottom of vim terminal
 set showcmd
@@ -68,12 +73,17 @@ set matchpairs+=<:>
 set ignorecase
 set smartcase
 
-"Show line numbers
-" set number
+"Always show left gutter
+:set signcolumn=yes
 
 "Tab configuration
 set tabstop=2 shiftwidth=2 expandtab
 set smarttab
+
+"Put backups somewhere else
+set backupdir=~/.backups//
+set directory=~/.backups//
+set undodir=~/.backups//
 
 "Highlight matching search patterns
 set hlsearch
@@ -143,13 +153,12 @@ inoremap <C-n> <Esc>:tabnext<CR>i
 
 "Nerd Tree Mappings
 nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>m :TagbarToggle<CR>
+nmap <leader>m :NERDTreeFind<CR>
 
 let NERDTreeShowHidden=1
-let g:nerdtree_tabs_open_on_gui_startup=0
 
 "camel_case motion
-map <silent> W <plug>camelcasemotion_w
+map <silent> W <plug>CamelCaseMotion_w
 map <silent> B <Plug>CamelCaseMotion_b
 map <silent> E <Plug>CamelCaseMotion_e
 sunmap W
@@ -161,6 +170,10 @@ nmap <Leader>f :GFiles<CR>
 nmap <Leader>F :Files<CR>
 nnoremap <C-p> :Files<Cr>
 
+"Edit Vimrc in vsplit and source
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+
 " Ale Syntax Checkers
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -168,19 +181,36 @@ let g:ale_fixers = {
 \   'ruby': ['rubocop']
 \}
 
+let g:ale_sign_error = '●' " Less aggressive than the default '>>'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+
+"Asynchronously run eslint on save
+" TODO get this for js too
+autocmd BufWritePost *.jsx AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+
 "Auto-fix file according to ale fixers
 nnoremap <silent> <Leader>fx :ALEFix
 
-"Airline, Colorscheme"
+"Run ripgrep on current word
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
-" TODO Allow rg on selection
-vnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 
-set background=dark
-" colorscheme material 
-
+" colorscheme 
 let g:seoul256_background = 235
+set background=dark
 colo seoul256
+
+let g:lightline = {
+  \ 'colorscheme': 'seoul256',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ],
+  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+  \ },
+  \ 'component_function': {
+  \   'gitbranch': 'fugitive#head'
+  \ },
+\ }
 
 "Add True Colors for Material Colorscheme (both nvim and vim)
 if (has("nvim"))
@@ -188,11 +218,17 @@ if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
-let g:airline_theme = 'zenburn'
-
-" Relative Numbers when normal mode, absolute when insert
+"Relative Numbers when normal mode, absolute when insert
 :set number relativenumber
 
+" Emmet settings
+let g:user_emmet_settings = {
+  \  'javascript.jsx' : {
+    \      'extends' : 'jsx',
+    \  },
+  \}
+
+"Hybrid line number display
 :augroup numbertoggle
 :  autocmd!
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
