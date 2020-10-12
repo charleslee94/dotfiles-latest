@@ -43,6 +43,9 @@ Plug 'tpope/vim-repeat'
 "Language Specific
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
+Plug 'jparise/vim-graphql'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 "A E S T H E T I C S
 Plug 'junegunn/seoul256.vim'
@@ -57,10 +60,13 @@ set nocompatible
 filetype plugin indent on
 
 "Turn on syntax highlighting on
-syntax on 
+syntax on
 
 "For Airline
 set laststatus=2
+
+"Use specific regex parser version (for ruby slowness)
+" set re=1
 
 "Show last command in bottom of vim terminal
 set showcmd
@@ -170,33 +176,38 @@ nmap <Leader>f :GFiles<CR>
 nmap <Leader>F :Files<CR>
 nnoremap <C-p> :Files<Cr>
 
-"Edit Vimrc in vsplit and source
-:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-:nnoremap <leader>sv :source $MYVIMRC<cr>
 
-" Ale Syntax Checkers
+"Ale Syntax Checkers
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint', 'prettier'],
-\   'ruby': ['rubocop']
+\   'javascript': ['prettier'],
+\   'typescript': ['prettier'],
 \}
-
-let g:ale_sign_error = '●' " Less aggressive than the default '>>'
-let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
-
-"Asynchronously run eslint on save
-" TODO get this for js too
-autocmd BufWritePost *.jsx AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
-autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+"Disable Ale for ruby (its slow)
+let g:ale_pattern_options = {
+\   '.*\.rb$': {'ale_enabled': 0},
+\}
 
 "Auto-fix file according to ale fixers
 nnoremap <silent> <Leader>fx :ALEFix
 
+let g:ale_cache_executable_check_failures = 1 " Cache executable checks for performance
+let g:ale_sign_error = '●' " Less aggressive than the default '>>'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+let g:ale_fix_on_save = 1
+
+"Asynchronously run eslint on save
+" TODO get this for js too
+autocmd BufWritePost *.jsx AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+autocmd BufWritePost *.tsx AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+
+
 "Run ripgrep on current word
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 
-" colorscheme 
+" colorscheme
 let g:seoul256_background = 235
 set background=dark
 colo seoul256
@@ -220,17 +231,20 @@ endif
 
 "Relative Numbers when normal mode, absolute when insert
 :set number relativenumber
-
-" Emmet settings
-let g:user_emmet_settings = {
-  \  'javascript.jsx' : {
-    \      'extends' : 'jsx',
-    \  },
-  \}
-
 "Hybrid line number display
 :augroup numbertoggle
 :  autocmd!
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
+
+"YCM config
+let g:ycm_max_num_candidates = 10
+
+"Edit Config Files
+" Edit Vimrc in vsplit and source
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+
+:nnoremap <leader>ez :vsplit ~/.zshrc<cr>
+:nnoremap <leader>sz :source ~/.zshrc<cr>

@@ -165,27 +165,14 @@ alias chrome='google-chrome'
 export WORKON_HOME="$HOME/.virtualenvs" 
 source /usr/local/bin/virtualenvwrapper.sh 
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-### SBT ###
-export PATH="~/applications/sbt/bin:$PATH"
-export PATH="~/Downloads/scala-2.9.3/bin:$PATH"
-
-### Exercism ###
-export PATH="/usr/bin:$PATH"
-
-#gistit
-export GISTIT_TOKEN="d9578c98db1f8e7d190f9ba1d0b95d53af83e7b4"
-
 # Add local aliases.
 if [ -f ~/.local_aliases ]; then
     source ~/.local_aliases
 fi
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
-export YVM_DIR=/Users/charleslee/.yvm
-[ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
-
+# FZF in terminal
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

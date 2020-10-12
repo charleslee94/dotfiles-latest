@@ -66,6 +66,7 @@ alias bers='nocorrect bundle exec rspec'
 
 # Config shortcuts
 alias zshrc='vim ~/.zshrc'
+alias szshrc='source ~/.zshrc'
 alias vimrc='vim ~/.vimrc'
 alias tmuxconf='vim ~/.tmux.conf'
 # Git 
@@ -87,9 +88,9 @@ alias panorama-download='heroku pg:backups:download --app panoraam-prod'
 # Tmux
 
 # Tmux Sessions
-alias pantmux='tmux attach -t panorama'
-alias backtmux='tmux attach -t backbone'
-alias tmux-source='tmux source-file ~/.tmux.conf'
+alias btmux='cd ~/ && ./backbone-tmux'
+alias ptmux='cd ~/ && ./panorama-tmux'
+alias stmux='tmux source-file ~/.tmux.conf'
 
 # Fixing weirdness with tmux path on macos
 if [ -f /etc/profile ]; then
@@ -99,6 +100,9 @@ fi
 
 # Raspberry Pi Projects
 alias pi-ssh="ssh pi@192.168.1.180"
+
+# Clasp stuff
+alias clasp="yarn clasp"
 
 # Open fzf result in vim
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -117,18 +121,16 @@ export PATH="$HOME/.bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 source /usr/local/opt/asdf/asdf.sh
 
-# TODO fix this
-function vimfzf {
-  zle -U 'vim $(fzf)'
-}
-zle -N vimfzf
 
-bindkey "^P" vimfzf
+# TODO widget this?
+bindkey -s '^P' 'vim $(fzf)^M'
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# RVM
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 source ~/.rvm/scripts/rvm
 
@@ -139,6 +141,11 @@ export YVM_DIR=/Users/charleslee/.yvm
 # Run fasd autocomplete
 eval "$(fasd --init auto)"#
 
+# 10ms for key sequences
+KEYTIMEOUT=1
 
+# Iterm2 Integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+eval "$(rbenv init -)"
+export HOMEBREW_GITHUB_API_TOKEN=5671106c3278cbf268e9ae6e587ccf8b7b65c6d4
