@@ -8,6 +8,8 @@ Plug 'itchyny/lightline.vim'
 "Git Wrapper
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+Plug 'junkblocker/patchreview-vim'
+Plug 'codegram/vim-codereview'
 
 "FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -21,10 +23,11 @@ Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/camelcasemotion'
 
 "Emmet help for html
-Plug 'mattn/emmet-vim'
+" Deprecated for coc plugin
+" Plug 'mattn/emmet-vim'
 
 "Autocompletion
-Plug 'Valloric/YouCompleteMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Allow f/t/F/T to be used again to advance instead of ;
 Plug 'rhysd/clever-f.vim'
@@ -46,9 +49,11 @@ Plug 'pangloss/vim-javascript'
 Plug 'jparise/vim-graphql'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'tpope/vim-rails'
 
 "A E S T H E T I C S
 Plug 'junegunn/seoul256.vim'
+Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 
@@ -62,8 +67,9 @@ filetype plugin indent on
 "Turn on syntax highlighting on
 syntax on
 
-"For Airline
-set laststatus=2
+"Simple status line
+:set laststatus=2
+:set statusline=%m\ %F\ %y\ %{&fileencoding?&fileencoding:&encoding}\ %=%(C:%c\ L:%l\ %P%)
 
 "Use specific regex parser version (for ruby slowness)
 " set re=1
@@ -73,7 +79,8 @@ set showcmd
 
 "Show matching {[(<>)]} when over a brace
 set showmatch
-set matchpairs+=<:>
+" Deprecated for coc plugin
+" set matchpairs+=<:>
 
 "Ignore case when searching and ignore when youre searching for a capital letter
 set ignorecase
@@ -189,7 +196,11 @@ let g:ale_pattern_options = {
 \}
 
 "Auto-fix file according to ale fixers
-nnoremap <silent> <Leader>fx :ALEFix
+nnoremap <silent> <Leader>ax :ALEFix
+
+"Easy access to ALENext and ALEPrevious
+nmap <silent> <leader>aj :ALENext<cr>
+nmap <silent> <leader>ak :ALEPrevious<cr>
 
 let g:ale_cache_executable_check_failures = 1 " Cache executable checks for performance
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
@@ -198,7 +209,6 @@ let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
 let g:ale_fix_on_save = 1
 
 "Asynchronously run eslint on save
-" TODO get this for js too
 autocmd BufWritePost *.jsx AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
 autocmd BufWritePost *.tsx AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
 autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
@@ -208,12 +218,15 @@ autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 
 " colorscheme
-let g:seoul256_background = 235
-set background=dark
-colo seoul256
+" Seoul256 colorscheme
+" let g:seoul256_background = 235
+" set background=dark
+" colo seoul256
+" nord colorscheme
+colorscheme nord
 
 let g:lightline = {
-  \ 'colorscheme': 'seoul256',
+  \ 'colorscheme': 'nord',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
   \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -222,12 +235,6 @@ let g:lightline = {
   \   'gitbranch': 'fugitive#head'
   \ },
 \ }
-
-"Add True Colors for Material Colorscheme (both nvim and vim)
-if (has("nvim"))
-  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
 
 "Relative Numbers when normal mode, absolute when insert
 :set number relativenumber
@@ -241,6 +248,9 @@ endif
 "YCM config
 let g:ycm_max_num_candidates = 10
 
+"Match ruby if/do end
+runtime macros/matchit.vim
+
 "Edit Config Files
 " Edit Vimrc in vsplit and source
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -248,3 +258,21 @@ let g:ycm_max_num_candidates = 10
 
 :nnoremap <leader>ez :vsplit ~/.zshrc<cr>
 :nnoremap <leader>sz :source ~/.zshrc<cr>
+
+" CoC mappings
+" Use <Tab> and <S-Tab> to navigate the completion list
+inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
+" use <CR> or enter to confirm
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" confirm and autoimport with Ctrl Y
+" add a newline inbetween parens and move cursor inside
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+"Add True Colors for Material Colorscheme (both nvim and vim)
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
