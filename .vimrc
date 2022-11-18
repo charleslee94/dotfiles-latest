@@ -94,9 +94,15 @@ set tabstop=2 shiftwidth=2 expandtab
 set smarttab
 
 "Put backups somewhere else
-set backupdir=~/.backups//
-set directory=~/.backups//
-set undodir=~/.backups//
+if empty(glob('~/.vim/backups'))
+    silent !mkdir -p ~/.backups
+    silent !mkdir -p ~/.backups/swp
+    silent !mkdir -p ~/.backups/undo
+endif
+
+set backupdir=~/.backups/swp
+set directory=~/.backups/swp
+set undodir=~/.backups/undo
 
 "Highlight matching search patterns
 set hlsearch
