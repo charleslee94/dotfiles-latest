@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/charles.lee/.oh-my-zsh"
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -20,7 +20,7 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo pip python history-substring-search zsh-autosuggestions)
+plugins=(git sudo pip python history-substring-search)
 # This needs to be after plugins
 source $ZSH/oh-my-zsh.sh
 # User configuration
@@ -29,8 +29,11 @@ export MANPATH="/usr/local/man:$MANPATH"
 # Preferred editor for all sessions
 export EDITOR='vim'
 
+# Fasd init
+eval "$(fasd --init auto)"
+
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_KEY_PATH="~/.ssh/dsa_id"
 #
 # ls aliases
 
@@ -72,18 +75,21 @@ alias gb='git branch --sort=-committerdate'
 alias zplug='google-chrome https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins'
 alias fasdhelp='google-chrome https://github.com/clvv/fasd'
 
+# Fasd aliases
+alias v='f -e vim' # quick opening files with vim
+
 
 # Fixing weirdness with tmux path on macos
 if [ -f /etc/profile ]; then
     PATH=""
     source /etc/profile
 fi
-
 # Open fzf result in vim
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 alias vzf='vim $(fzf)'
 # Some FZF terminal shortcuts
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules,storybook}/*" 2> /dev/null'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git
+,node_modules,storybook}/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Search history of current terminal string
@@ -91,11 +97,6 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 export PATH="$HOME/.bin:$PATH"
-# Recommended by brew doctor
-export PATH="/usr/local/bin:$PATH"
-# Put brew in path
-export PATH=/opt/homebrew/bin:$PATH
-
 # TODO widget this?
 bindkey -s '^P' 'vim $(fzf)^M'
 
@@ -107,4 +108,20 @@ KEYTIMEOUT=1
 
 # Iterm2 Integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# Syntax Highlighting
 source /Users/charles.lee/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#compdef clyde
+_clyde() {
+  eval $(env COMMANDLINE="${words[1,$CURRENT]}" _CLYDE_COMPLETE=complete-zsh  clyde)
+}
+if [[ "$(basename -- ${(%):-%x})" != "_clyde" ]]; then
+  compdef _clyde clyde
+fi
+
+# Brew for m1 mac
+export PATH=/opt/homebrew/bin:$PATH
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Discord Clyde bootstrap setup
+source /Users/charles.lee/.nix-profile/etc/profile.d/nix.sh
+source "$HOME/.cargo/env"
