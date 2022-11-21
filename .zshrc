@@ -100,9 +100,6 @@ export PATH="$HOME/.bin:$PATH"
 # TODO widget this?
 bindkey -s '^P' 'vim $(fzf)^M'
 
-# Run fasd autocomplete
-eval "$(fasd --init auto)"#
-
 # 10ms for key sequences
 KEYTIMEOUT=1
 
