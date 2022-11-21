@@ -79,10 +79,11 @@ alias fasdhelp='google-chrome https://github.com/clvv/fasd'
 alias v='f -e vim' # quick opening files with vim
 
 # Fixing weirdness with tmux path on macos
-if [ -f /etc/profile ]; then
-    PATH=""
-    source /etc/profile
-fi
+# if [ -f /etc/profile ]; then
+#     PATH=""
+#     source /etc/profile
+# fi
+
 # Open fzf result in vim
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 alias vzf='vim $(fzf)'
