@@ -53,8 +53,20 @@ echo -e "✅ Successfully modified the default shell"
 # vim setup
 ###########################
 # Install Vim Plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+echo -e "Installing VimPlug"
+VIM_HOME=$HOME/.vim
+if [ -d $VIM_HOME ]
+then
+   echo -e "\n$VIM_HOME directory exists!\nSkipping installation of vim plug.\n"
+else
+   echo -e "\n$VIM_HOME directory not found."
+   echo -e "⤵ Configuring vim plug in the $HOME directory..."
+   (cd $HOME && sh -c "$(curl -fLo ~/.vim/autoload/plug.vim --create-dirs \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)" "" --unattended)
+   echo -e "✅ Successfully installed vim plug"
+fi
 
+echo -e "Installing vim plugins"
 # Install Plugins
+
 vim +'PlugInstall --sync' +qa
+echo -e "✅ Successfully installed vim plugins"
