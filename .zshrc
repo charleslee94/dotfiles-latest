@@ -20,7 +20,7 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sudo pip python history-substring-search)
+plugins=(git sudo pip python history-substring-search fasd)
 # This needs to be after plugins
 source $ZSH/oh-my-zsh.sh
 # User configuration

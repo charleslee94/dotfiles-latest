@@ -48,3 +48,13 @@ echo -e "✅ Successfully modified the default shell"
 ###########################
 # end zsh setup
 ###########################
+
+###########################
+# vim setup
+###########################
+# Install Vim Plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# Install Plugins
+vim +'PlugInstall --sync' +qa
