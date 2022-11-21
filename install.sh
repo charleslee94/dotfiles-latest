@@ -53,21 +53,21 @@ echo -e "✅ Successfully modified the default shell"
 # vim setup
 ###########################
 # Install Vim Plug
-echo -e "Installing VimPlug"
-VIM_PLUG=$HOME/.vim/autoload/plug.vim
-if [ -f ${VIM_PLUG} ]
-then
-   echo -e "\n$VIM_PLUG directory exists!\nSkipping installation of vim plug."
-else
-   echo -e "\n$VIM_PLUG directory not found."
-   echo -e "\n⤵ Configuring vim plug in the $HOME directory..."
-   (cd $HOME && curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
-   echo -e "\n✅ Successfully installed vim plug
-   "
-fi
+# echo -e "Installing VimPlug"
+# VIM_PLUG=$HOME/.vim/autoload/plug.vim
+# if [ -f ${VIM_PLUG} ]
+# then
+#    echo -e "\n$VIM_PLUG exists!\nSkipping installation of vim plug."
+# else
+#    echo -e "\n$VIM_PLUG not found."
+#    echo -e "\n⤵ Configuring vim plug in the $HOME directory..."
+#    (cd $HOME && curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
+#    echo -e "\n✅ Successfully installed vim plug
+#    "
+# fi
 
-echo -e "\nInstalling vim plugins"
-# Install Plugins
+# echo -e "\nInstalling vim plugins"
+# # Install Plugins
 
-vim +PlugInstall +qall
-echo -e "\n✅ Successfully installed vim plugins"
+# vim +PlugInstall +qall
+# echo -e "\n✅ Successfully installed vim plugins"
