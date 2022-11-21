@@ -51,6 +51,7 @@ echo -e "✅ Successfully modified the default shell"
 
 ###########################
 # vim setup
+# Uncomment to setup vim
 ###########################
 # Install Vim Plug
 # echo -e "Installing VimPlug"
@@ -71,3 +72,11 @@ echo -e "✅ Successfully modified the default shell"
 
 # vim +PlugInstall +qall
 # echo -e "\n✅ Successfully installed vim plugins"
+
+###########################
+# end vim setup
+###########################
+
+### Install Fasd https://github.com/clvv/fasd
+### Install ripgrep https://github.com/BurntSushi/ripgrep
+### Install zsh syntax highlight and suggestions (plugins)
