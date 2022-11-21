@@ -78,7 +78,6 @@ alias fasdhelp='google-chrome https://github.com/clvv/fasd'
 # Fasd aliases
 alias v='f -e vim' # quick opening files with vim
 
-
 # Fixing weirdness with tmux path on macos
 if [ -f /etc/profile ]; then
     PATH=""
@@ -105,20 +104,3 @@ KEYTIMEOUT=1
 
 # Iterm2 Integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-# Syntax Highlighting
-source /Users/charles.lee/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#compdef clyde
-_clyde() {
-  eval $(env COMMANDLINE="${words[1,$CURRENT]}" _CLYDE_COMPLETE=complete-zsh  clyde)
-}
-if [[ "$(basename -- ${(%):-%x})" != "_clyde" ]]; then
-  compdef _clyde clyde
-fi
-
-# Brew for m1 mac
-export PATH=/opt/homebrew/bin:$PATH
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Discord Clyde bootstrap setup
-source /Users/charles.lee/.nix-profile/etc/profile.d/nix.sh
-source "$HOME/.cargo/env"
