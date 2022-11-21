@@ -69,5 +69,5 @@ fi
 echo -e "\nInstalling vim plugins"
 # Install Plugins
 
-vim +'PlugInstall --sync' +qa
+vim +PlugInstall +qall
 echo -e "\n✅ Successfully installed vim plugins"
