@@ -1,4 +1,5 @@
 # Credit: Joe Previte (@jsjoeio) - https://github.com/jsjoeio/dotfiles/blob/master/install.sh
+# Setup for MacOSX
 ###########################
 # zsh setup
 ###########################
@@ -78,5 +79,18 @@ echo -e "✅ Successfully modified the default shell"
 ###########################
 
 ### Install Fasd https://github.com/clvv/fasd
+sudo add-apt-repository ppa:aacebedo/fasd
+sudo apt-get update
+sudo apt-get -y install fasd
 ### Install ripgrep https://github.com/BurntSushi/ripgrep
+curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+sudo dpkg -i ripgrep_13.0.0_amd64.deb
+nix-env --install ripgrep
 ### Install zsh syntax highlight and suggestions (plugins)
+# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+### Install neovim
+sudo add-apt-repository ppa:neovim-ppa/stable
+sudo apt-get update
+sudo apt-get -y install neovim
+
